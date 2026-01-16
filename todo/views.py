@@ -19,5 +19,25 @@ def mark_as_undone(request,pk):
     task.save()
     return redirect('home')
 
+def edit_task(request,pk):
+    get_task = get_object_or_404(Task,pk=pk)
 
+    if request.method == 'POST':
+        new_task=request.POST['task']
+        # print(new_task)
+        get_task.task=new_task
+        get_task.save()
+        
+        return redirect('home')
+    else:
+        context = {
+            'get_task':get_task,
+        }
+        return render(request,'edit_task.html',context)
+    
+
+def delete_task(request,pk):
+    get_task = get_object_or_404(Task,pk=pk)
+    get_task.delete()
+    return redirect('home')
 # Create your views here.
